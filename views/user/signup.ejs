@@ -91,38 +91,180 @@
         .login-link a:hover {
             text-decoration: underline;
         }
+        .error-message{
+            color: red;
+            font-size: 0.75rem;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="signup-container">
         <h1>Sign Up</h1>
-        <form method="post" action="/signup">
+        <form id="signform" method="post" action="/signup">
             <div class="form-group">
                 <label for="full-name">Full Name</label>
                 <input type="text" id="full-name" name="name" placeholder="Enter Name" required>
+                <div id="error1" class="error-message"></div>
             </div>
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" placeholder="Enter Email" required>
+                <div id="error2" class="error-message"></div>
             </div>
             <div class="form-group">
                 <label for="phone">Phone Number</label>
                 <input type="tel" id="phone" name="phone" placeholder="Enter Phone Number" required>
+                <div id="error3" class="error-message"></div>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" placeholder="Password" required>
+                <div id="error4" class="error-message"></div>
             </div>
             <div class="form-group">
                 <label for="confirm-password">Confirm Password</label>
                 <input type="password" id="confirm-password" name="cPassword" placeholder="Confirm Password" required>
+                <div id="error5" class="error-message"></div>
             </div>
             <button type="submit" class="btn">Sign Up</button>
-            <button type="button" class="btn google-btn">Sign in with Google</button>
+            <!-- <a href="/auth/google" class="btn google-btn">Sign in with Google</a> -->
+            <button type="button" class="btn google-btn" onclick="window.location.href='/auth/google'">
+                Sign in with Google
+              </button>
+              
             <div class="login-link">
                 <p>Already have an account? <a href="#">Log In</a></p>
             </div>
         </form>
     </div>
+
+
+    <script>
+        const nameid = document.getElementById("full-name");
+        const emailid = document.getElementById("email");
+        const phoneid = document.getElementById("phone");
+        const passid = document.getElementById("password");
+        const cpassid = document.getElementById("confirm-password");
+        const error1 = document.getElementById("error1");    
+        const error2 = document.getElementById("error2");
+        const error3 = document.getElementById("error3");    
+        const error4 = document.getElementById("error4");
+        const error5 = document.getElementById("error5");
+        const signform = document.getElementById("signform");
+        
+        function nameValidateChecking(e){
+            const nameval = nameid.value;
+            const namepattern = /^[A-Za-z\s]+$/;
+
+            if(nameval.trim()===""){
+                error1.style.display = "block";
+                error1.innerHTML = "Enter a valid name";
+            }else if(!namepattern.test(nameval)){
+                error1.style.display = "block";
+                error1.innerHTML = "Name can only have alphabets and spaces";
+            }else{
+                error1.style.display = "none";
+                error1.innerHTML = "";
+            }
+        }
+
+        function emailValidateChecking(e){
+            const emailval = emailid.value;
+            const emailpattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+            if(!emailpattern.test(emailval)){
+                error2.style.display = "block";
+                error2.innerHTML = " invalid email format";
+            }else{
+                error2.style.display = "none";
+                error2.innerHTML = "";
+            }
+        }
+
+        function phoneValidateChecking(e){
+            const phoneval = phoneid.value;
+            const phonepattern = /^\d{10}$/;
+
+            if(phoneval.trim()===""){
+                error3.style.display = "block";
+                error3.innerHTML = "Enter a valid phone number";
+            }else if(!phonepattern.test(phoneval)){
+                error3.style.display = "block";
+                error3.innerHTML = "phone number should contain only 10 digit number";
+            }else{
+                error3.style.display = "none";
+                error3.innerHTML = "";
+            }
+        }
+
+        function passValidateChecking(e){
+            const passval = passid.value;
+            const cpassval = cpassid.value;
+            const alpha = /[a-zA-Z]/;
+            const digit = /\d/;
+
+            if(passval.length<8){
+                error4.style.display = "block";
+                error4.innerHTML = "should have atleast 8 characters";
+            }else if(!alpha.test(passval)||!digit.test(passval)){
+                error4.style.display = "block";
+                error4.innerHTML = "Password must include both alphabets and digits";
+            }else{
+                error4.style.display = "none";
+                error4.innerHTML = "";
+            }
+
+
+            if(passval!==cpassval){
+                error5.style.display = "block";
+                error5.innerHTML = "password not matching";
+            }else{
+                error5.style.display = "none";
+                error5.innerHTML = "";
+            }
+        }
+
+
+        
+
+
+
+        document.addEventListener("DOMContentLoaded",function(){
+            signform.addEventListener("submit",function(e){
+               nameValidateChecking();
+               emailValidateChecking();
+               phoneValidateChecking();
+               passValidateChecking();
+
+               if(
+                  !nameid||
+                  !emailid||
+                  !phoneid||
+                  !passid||
+                  !error1||
+                  !error2||
+                  !error3||
+                  !error4||
+                  !error5||
+                  !signform
+                ){
+                    console.error("one or more fields missing");
+                }
+                if(
+                    error1.innerHTML||
+                    error2.innerHTML||
+                    error3.innerHTML||
+                    error4.innerHTML||
+                    error5.innerHTML
+                ){
+                    e.preventDefault();
+                }
+            })
+        })
+
+
+
+    </script>
 </body>
 </html>

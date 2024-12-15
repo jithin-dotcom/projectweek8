@@ -14,9 +14,14 @@ const userSchema = new Schema({
      },
      phone : {
         type : String,
-        required : true,
-        unique : false
-        
+        required : false,
+        unique : false,
+        sparse:true,
+        default:null
+     },
+     googleId : {
+      type : String,
+      unique:true
      },
      
     
