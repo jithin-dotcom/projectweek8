@@ -96,6 +96,10 @@
             font-size: 0.75rem;
             display: none;
         }
+        .error-message-2{
+            color: red;
+            font-size: 0.75rem;
+        }
     </style>
 </head>
 <body>
@@ -127,6 +131,11 @@
                 <input type="password" id="confirm-password" name="cPassword" placeholder="Confirm Password" required>
                 <div id="error5" class="error-message"></div>
             </div>
+            <%if(locals.message && message.length>0){%>
+                <div class="error-message-2">
+                   <%=message%>
+                </div>
+           <%}%>
             <button type="submit" class="btn">Sign Up</button>
             <!-- <a href="/auth/google" class="btn google-btn">Sign in with Google</a> -->
             <button type="button" class="btn google-btn" onclick="window.location.href='/auth/google'">
@@ -134,7 +143,7 @@
               </button>
               
             <div class="login-link">
-                <p>Already have an account? <a href="#">Log In</a></p>
+                <p>Already have an account? <a href="/login">Log In</a></p>
             </div>
         </form>
     </div>
