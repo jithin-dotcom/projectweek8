@@ -40,33 +40,41 @@
                 <td><%=data[i].category.name%></td>
                 <td><%=data[i].salePrice%></td>
                 <td>
+                    <%if(locals.data[i].productOffer){%>
+                        <%=data[i].productOffer%>
+
+                        <%}else{%>
+                            0%
+                        <%}%>
+                
                 </td>
                 <td>
-                
-                    <button class="btn btn-info" onclick="" style="width: 100px;">
+                    <%if(locals.data[i].productOffer===0){%>
+                    <button class="btn btn-info" onclick="addOffer('<%=data[i]._id%>')" style="width: 100px;">
                         <a href="#" class="text-white">Add Offer</a>
                     </button>
-        
-                    <button class="btn btn-info" onclick="" style="width: 100px;">
+                     <%}else{%>
+                    <button class="btn btn-info" onclick="removeOffer('<%=data[i]._id%>')" style="width: 100px;">
                         <a href="#" class="text-white">Remove</a>
                     </button>
-                
+                     <%}%>
                 </td>
-                <td></td>
+                <td><%=data[i].quantity%></td>
                 <td>
-                
+                     
+                    <%if(data[i].isBlocked===false){%>
                     <button class="btn btn-danger" style="width: 80px;">
-                        <a href="" class="text-white" style="text-decoration: none;">Block</a>
+                        <a href="/admin/blockProduct?id=<%=data[i]._id%>" class="text-white" style="text-decoration: none;">Block</a>
                     </button>
-                    
+                    <%}else{%>
                     <button class="btn btn-success" style="width: 80px;">
-                        <a href="" class="text-white" style="text-decoration: none;">Unblock</a>
+                        <a href="/admin/unblockProduct?id=<%=data[i]._id%>" class="text-white" style="text-decoration: none;">Unblock</a>
                     </button>
-            
+                    <%}%>
                 </td>
                 <td>
                     <button class="btn btn-info" style="width: 80px;">
-                        <a href="" class="text-white" style="text-decoration: none;">Edit</a>
+                        <a href="/admin/editProduct?id=<%=data[i]._id%>" class="text-white" style="text-decoration: none;">Edit</a>
                     </button>
                 </td>
             </tr>
@@ -98,4 +106,97 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+
+async function addOffer(productId) {
+    const {value:amount} = await Swal.fire({
+        title:'Offer in percentage',
+        input:'number',
+        inputLabel:'percentage',
+        inputPlaceholder:'%'
+    })
+
+      // Validate input
+    if (amount === undefined || amount === null || amount.trim() === '' || isNaN(amount) || amount < 0 || amount > 100) {
+        Swal.fire('Invalid Input', 'Please enter a percentage between 0 and 100.', 'error');
+        return;
+    }
+
+
+    $.ajax({
+        url:"/admin/addProductOffer",
+        method:'post',
+        data:{
+            percentage:amount,
+            productId:productId
+        },
+        success:(response)=>{
+            if(response.status===true){
+                location.reload();
+                Swal.fire('Offer added','The offer has been successfully added','success');
+            }else{
+                Swal.fire('Error','Failed to add offer. Please try again later','error');  //error
+            }
+        },
+    
+        error:(xhr,status,error)=>{
+            Swal.fire('Error','An unexpected error occured:'+error,'error');
+        },
+    })
+}
+
+function removeOffer(productId){
+    try {
+        
+        Swal.fire({
+            title:'Remove offer',
+            text:'Are you sure you want to remove this offer',
+            icon:'warning',
+            showCancelButton:true,
+            confirmButtonColor:'#3085d6',
+            cancelButtonColor:'#d33',
+            confirmButtonText:'Yes,remove it!',
+            timer:5000,
+            timerProgressBar:true
+        }).then(async(result)=>{
+            if(result.isConfirmed){
+                $.ajax({
+
+                    url:"/admin/removeProductOffer",
+                    method:'post',
+                    data:{
+                        productId:productId
+                    },
+                    success:(response)=>{
+                        if(response && response.status===true){                             //condition modified
+                            Swal.fire('Removed!','The offer has been removed','success');
+                            location.reload();
+                        }else if(response && response.status===false){
+                            Swal.fire('Failed!', 'Unable to remove the offer. Please try again.', 'error');
+                        }else{
+                            Swal.fire('Error!', 'An unexpected error occurred.', 'error');
+                        }
+                    },
+                    error: (xhr, status, error) => {                                                       //error added
+                        Swal.fire('Error!', `Failed to communicate with the server: ${error}`, 'error'); 
+                    },
+
+                })
+            }
+        })
+
+    } catch (error) {
+         console.error(error);
+         Swal.fire('Error!', 'An unexpected error occurred while processing your request.', 'error'); //error added
+    }
+}
+
+
+</script>
+
+
+
+
+
 <%- include("../../views/partials/admin/footer") %>

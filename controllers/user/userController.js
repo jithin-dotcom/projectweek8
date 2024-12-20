@@ -24,23 +24,55 @@ const pageNotFound = async(req,res) => {
 }
 
 
-const loadHomepage = async(req,res) => {
-    try{
+const loadHomepage = async (req, res) => {
+    try {
         const user = req.session.user;
-        if(user){
+        console.log(user);
+        if (user) {
+           
+            console.log("Session User after Login:", req.session.user);  // After user logs in
 
             const userData = await User.findOne({_id:user._id});
-            res.render("home",{user:userData});
+            console.log("User object:", userData);  // Log the user object before rendering
 
-        }else{
-            return res.render("home");
+            res.render("home", { user:userData });
+        } else {
+            res.render("home");
         }
-        
-    }catch(error){
-        console.log("homepage not found:",error);
-        res.status(500).send("server error");
+    } catch (error) {
+        console.log("Homepage error:", error);
+        res.status(500).send("Server error");
     }
-}
+};
+
+
+
+// const loadHomepage = async(req,res) => {
+//     try{
+//         const user = req.session.user;
+//         console.log(user);
+//         if(user){
+
+//             const userData = await User.findOne({_id:user._id});
+//             // const userData = await User.findOne({name:user.name});
+//             res.render("home",{user:userData});
+//             // res.render("home", { user });
+//             // res.render("home",{user:userData.name});
+//             console.log(req.session.user);
+
+//         }else{
+//             return res.render("home");
+//         }
+        
+//     }catch(error){
+//         console.log("homepage not found:",error);
+//         res.status(500).send("server error");
+//     }
+// }
+
+
+
+
 
 // const signup = async(req,res) => {
 //     const {name,email,phone,password} = req.body;
@@ -212,7 +244,16 @@ const login = async(req,res)=>{
         return res.render("login",{message:"Incorrect Password"});
        }
 
-       req.session.user = findUser._id;
+    //    req.session.user = findUser._id;
+
+       // After successful login, assuming `user` is fetched from the database
+          req.session.user = {
+                 _id: findUser._id,
+                  name: findUser.name,
+                  email: findUser.email
+                };
+
+
        res.redirect("/");
 
     }catch(error){
