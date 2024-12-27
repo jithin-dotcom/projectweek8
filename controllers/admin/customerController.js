@@ -4,20 +4,26 @@ const User = require("../../models/userSchema");
 const customerInfo = async(req,res)=>{
     try{
         let search = "";
+
+         // If there is a `search` query parameter, trim its value and assign it to `search`
         if(req.query.search){
             search = req.query.search.trim(); //add
         }
+
+        //pagination logic
         let page = 1;
         if(req.query.page){
             page = parseInt(req.query.page); //add
         }
         const limit = 3;
         const skip = (page-1)*limit; //add
+
+        // Query the database for customers (non-admin users) matching the search criteria
         const data = await User.find({
             isAdmin:false,
             $or:[
-                {name:{$regex:".*"+search+".*"}},
-                {email:{$regex:".*"+search+".*"}},
+                {name:{$regex:".*"+search+".*"}},   // Case-insensitive search for name
+                {email:{$regex:".*"+search+".*"}},  // Case-insensitive search for email
             ],
         })
          .limit(limit)

@@ -298,6 +298,8 @@
             img.alt = "thumbnail";
             img.style.width = "50px";
             img.style.height = "auto";
+
+            //remove image
             const removeIcon = document.createElement("span");
             removeIcon.classList.add("remove-icon");
             removeIcon.innerHTML = "&times;";
@@ -331,7 +333,7 @@
               const images = document.getElementById('input1')
               const quantity=document.getElementsByName('quantity')
               let isValid = true
-              if (name.trim() === "") {
+            if (name.trim() === "") {
       displayErrorMessage('productName-error', 'Please enter a product name.');
       isValid = false;
    } else if (!/^[a-zA-Z\s]+$/.test(name.trim())) {

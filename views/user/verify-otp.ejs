@@ -144,15 +144,23 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+
+    // Focus on the OTP input field when the page loads
     document.getElementById("otp").focus();
 
+    // Initialize the timer for OTP expiration (60 seconds)
     let timer = 60;
     let timerInterval;
 
+    // Function to start the countdown timer
     function startTimer() {
+
+        // Update the timer every second
         timerInterval = setInterval(() => {
             timer--;
             document.getElementById("timerValue").textContent = timer;
+
+           // If the timer reaches 0, stop the countdown and disable the OTP input
             if (timer <= 0) {
                 clearInterval(timerInterval);
                 document.getElementById("timerValue").classList.add("expired");
@@ -163,8 +171,11 @@
     }
     startTimer();
 
+ // Function to validate OTP and submit the form
 function validateOTPForm(){
     const otpInput = document.getElementById("otp").value;
+
+    // Send the OTP to the server for validation using AJAX
     $.ajax({
         type:"POST",
         url:"verify-otp",
@@ -182,7 +193,7 @@ function validateOTPForm(){
             }else{
                 Swal.fire({
                     icon:"error",
-                    title:Error,
+                    title:"Error",
                     text:response.message,
                 })
             }
@@ -199,17 +210,26 @@ function validateOTPForm(){
 }
 
 
+// Function to handle OTP resending
 function resendOTP(){
+
+    //clear privious timer and set new to 60
     clearInterval(timerInterval);
     timer = 60;
+
+    //activates input field and reset timer display
     document.getElementById("otp").disabled = false;
     document.getElementById("timerValue").classList.remove("expired");
     document.getElementById("timerValue").textContent = timer;
     startTimer();
+
+     // Send an AJAX request to resend the OTP
     $.ajax({
         type:"POST",
         url:"resend-otp",
         success: function(response){
+
+        // If OTP is successfully resent
           if(response.success){ 
             Swal.fire({
                 icon:"success",

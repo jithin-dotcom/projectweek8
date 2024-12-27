@@ -127,12 +127,12 @@
                                        <div class="col-md-12" style="position: relative;">
                                            <div class="mb-4">
                                                <div class="col-12">
-                                                   <td>
+                                                   <td style="position: relative;">
                                                        <input type="hidden" value="<%=product.productImage[i]%>" id="imageDatas">
                                                        <img class="rounded" style="width: 50px; height: 60px;"
                                                            src="/uploads/re-image/<%=product.productImage[i]%>"
                                                            alt="">
-                                                       <i onclick="deleteSingleImage('<%=product.productImage[i]%>','<%=product._id%>')" style="position: absolute; margin-left: .5rem; cursor: pointer;z-index: 10;" class="fa fa-times"></i>
+                                                       <i onclick="deleteSingleImage('<%=product.productImage[i]%>','<%=product._id%>')" style="position: absolute; margin-left: .5rem; cursor: pointer;z-index: 10;" class="bi bi-x">x</i>
                                                          
                                                     </td>
                                                </div>

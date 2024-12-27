@@ -304,6 +304,47 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     </div>
 </div>
 
+<script>
+ 
+// Select elements
+const filterButton = document.querySelector('.js-show-filter');
+const searchButton = document.querySelector('.js-show-search');
+const filterPanel = document.querySelector('.panel-filter');
+const searchPanel = document.querySelector('.panel-search');
+
+// Toggle filter panel
+filterButton.addEventListener('click', () => {
+    const filterCloseIcon = filterButton.querySelector('.icon-close-filter');
+    const filterOpenIcon = filterButton.querySelector('.icon-filter');
+
+    // Show/hide filter panel and reset search panel
+    filterPanel.classList.toggle('dis-none');
+    searchPanel.classList.add('dis-none'); // Ensure search is hidden
+
+    // Toggle filter icons
+    filterCloseIcon.classList.toggle('dis-none');
+    filterOpenIcon.classList.toggle('dis-none');
+});
+
+// Toggle search panel
+searchButton.addEventListener('click', () => {
+    const searchCloseIcon = searchButton.querySelector('.icon-close-search');
+    const searchOpenIcon = searchButton.querySelector('.icon-search');
+
+    // Show/hide search panel and reset filter panel
+    searchPanel.classList.toggle('dis-none');
+    filterPanel.classList.add('dis-none'); // Ensure filter is hidden
+
+    // Toggle search icons
+    searchCloseIcon.classList.toggle('dis-none');
+    searchOpenIcon.classList.toggle('dis-none');
+});
+
+
+</script>
+
+
+
 <!--===============================================================================================-->	
 <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
@@ -405,6 +446,41 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 </script>
 <!--===============================================================================================-->
 <script src="js/main.js"></script>
+<!--================================================================================================-->
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.nice-select.min.js"></script>
+<script src="js/jquery.nicescroll.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/jquery.slicknav.js"></script>
+<script src="js/mixitup.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="./user-assets/js/vendor/modernizr-3.6.0.min.js"></script>
+<script src="./user-assets/js/vendor/jquery-3.6.0.min.js"></script>
+<script src="./user-assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+<script src="./user-assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="./user-assets/js/plugins/slick.js"></script>
+<script src="./user-assets/js/plugins/jquery.syotimer.min.js"></script>
+<script src="./user-assets/js/plugins/wow.js"></script>
+<script src="./user-assets/js/plugins/jquery-ui.js"></script>
+<script src="./user-assets/js/plugins/perfect-scrollbar.js"></script>
+<script src="./user-assets/js/plugins/magnific-popup.js"></script>
+<script src="./user-assets/js/plugins/select2.min.js"></script>
+<script src="./user-assets/js/plugins/waypoints.js"></script>
+<script src="./user-assets/js/plugins/counterup.js"></script>
+<script src="./user-assets/js/plugins/jquery.countdown.min.js"></script>
+<script src="./user-assets/js/plugins/images-loaded.js"></script>
+<script src="./user-assets/js/plugins/isotope.js"></script>
+<script src="./user-assets/js/plugins/scrollup.js"></script>
+<script src="./user-assets/js/plugins/jquery.vticker-min.js"></script>
+<script src="./user-assets/js/plugins/jquery.theia.sticky.js"></script>
+<script src="./user-assets/js/plugins/jquery.elevatezoom.js"></script>
+<script src="./user-assets/js/maind134.js?v=3.4"></script>
+<script src="./user-assets/js/shopd134.js?v=3.4"></script>
 
 </body>
 </html>

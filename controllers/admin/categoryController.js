@@ -30,7 +30,7 @@ const categoryInfo = async(req,res)=>{
 
 
 const addCategory = async(req,res)=>{
-    console.log(req.body);
+    // console.log(req.body);
     const {name,description} = req.body;
     try{
        const existingCategory = await Category.findOne({name});
@@ -54,8 +54,8 @@ const addCategoryOffer = async(req,res)=>{
      
        const percentage = parseInt(req.body.percentage);
        const categoryId = req.body.categoryId;
-       console.log("Request body:", req.body); // Debug request body
-       console.log("Received categoryId:", categoryId); // Debug categoryId
+    //    console.log("Request body:", req.body); 
+    //    console.log("Received categoryId:", categoryId); 
        const category = await Category.findById(categoryId);
        if(!category){
          return res.status(404).json({status:false,message:"Category not found"});
@@ -75,18 +75,7 @@ const addCategoryOffer = async(req,res)=>{
        }
        res.json({status:true});
 
-        // Send updated product data in the response
-        // const updatedProducts = await Product.find({ category: category._id });
-
-        // res.json({ status: true, updatedProducts: updatedProducts });
-
-
-        // res.json({ 
-        //     status: true, 
-        //     message: "Offer added successfully", 
-        //     categoryOffer: percentage, 
-        //     updatedProducts: Products
-        // })
+        
 
     }catch(error){
        res.status(500).json({status:false, message:"Internal Server Error"});
@@ -179,7 +168,7 @@ const editCategory = async(req,res)=>{
        const updateCategory = await Category.findByIdAndUpdate(id,{
           name:categoryName,
           description:description,
-       },{new:true});//document immediatly returnes
+       },{new:true});//document immediatly returns
        
        if(updateCategory){
          res.redirect("/admin/category");

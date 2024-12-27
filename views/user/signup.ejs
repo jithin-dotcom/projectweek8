@@ -108,27 +108,27 @@
         <form id="signform" method="post" action="/signup">
             <div class="form-group">
                 <label for="full-name">Full Name</label>
-                <input type="text" id="full-name" name="name" placeholder="Enter Name" required>
+                <input type="text" id="full-name" name="name" placeholder="Enter Name" >
                 <div id="error1" class="error-message"></div>
             </div>
             <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="Enter Email" required>
+                <input type="email" id="email" name="email" placeholder="Enter Email" >
                 <div id="error2" class="error-message"></div>
             </div>
             <div class="form-group">
                 <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" placeholder="Enter Phone Number" required>
+                <input type="tel" id="phone" name="phone" placeholder="Enter Phone Number" >
                 <div id="error3" class="error-message"></div>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Password" required>
+                <input type="password" id="password" name="password" placeholder="Password" >
                 <div id="error4" class="error-message"></div>
             </div>
             <div class="form-group">
                 <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" name="cPassword" placeholder="Confirm Password" required>
+                <input type="password" id="confirm-password" name="cPassword" placeholder="Confirm Password" >
                 <div id="error5" class="error-message"></div>
             </div>
             <%if(locals.message && message.length>0){%>
@@ -241,7 +241,7 @@
 
         document.addEventListener("DOMContentLoaded",function(){
             signform.addEventListener("submit",function(e){
-               nameValidateChecking();
+               nameValidateChecking();        
                emailValidateChecking();
                phoneValidateChecking();
                passValidateChecking();
@@ -267,7 +267,7 @@
                     error4.innerHTML||
                     error5.innerHTML
                 ){
-                    e.preventDefault();
+                    e.preventDefault();    //method to block submission
                 }
             })
         })

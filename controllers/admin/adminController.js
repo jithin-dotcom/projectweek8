@@ -17,9 +17,15 @@ const loadLogin = (req,res)=>{
 const login = async(req,res)=>{
     try{
        const {email,password} = req.body;
+
+        // Find an admin user with the given email (ensures user is an admin by checking `isAdmin: true`)
        const admin = await User.findOne({email,isAdmin:true});
+
+        // If an admin user is found, proceed to validate the password
        if(admin){
         const passwordMatch = bcrypt.compare(password,admin.password);
+
+      // If the password matches, set a session flag for the admin and redirect to the admin dashboard
         if(passwordMatch){
             req.session.admin = true;
             return res.redirect("/admin");

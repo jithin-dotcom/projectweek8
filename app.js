@@ -14,6 +14,8 @@ db();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
+
+//session management
 app.use(session({
     secret:process.env.SESSION_SECRET,
     resave:false,
@@ -36,11 +38,18 @@ app.use((req,res,next) => {
 })
 
 
+
+// view engine setup
 app.set("view engine","ejs");
 app.set("views",[path.join(__dirname,'views/user'),path.join(__dirname,'views/admin')]);
 app.use(express.static(path.join(__dirname,"public")));
+
+
+//user and admin router setup
 app.use("/",userRouter);
 app.use("/admin",adminRouter);
+
+
 
 
 app.listen(PORT,() => {

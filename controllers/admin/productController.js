@@ -26,16 +26,20 @@ const getProductAddPage = async(req,res)=>{
 const addProducts = async(req,res)=>{
     try {
         const products = req.body;
+
+        //checks if product with same name exists
         const productExists = await Product.findOne({
             productName:products.productName,
         });
 
+        //if same name dont exist
       if(!productExists){
         const images = [];
         if(req.files && req.files.length > 0){
             for(let i = 0; i < req.files.length; i++){
                 const originalImagePath = req.files[i].path;
 
+                //crop image using sharp and saves image in product-image 
                 const resizedImagePath = path.join('public','upload','product-images',req.files[i].filename);
                 await sharp(originalImagePath).resize({width:440,height:440}).toFile(resizedImagePath);
                 images.push(req.files[i].filename);
@@ -45,7 +49,7 @@ const addProducts = async(req,res)=>{
         const categoryId = await Category.findOne({name:products.category});
 
         if(!categoryId){
-            return res.status(400).join("Invalid category name");
+            return res.status(400).json("Invalid category name");   //join
         }
 
         const newProduct = new Product({
